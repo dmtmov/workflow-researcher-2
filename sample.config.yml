@@ -19,7 +19,7 @@ helixService:
       enabled: true
     external:
       enabled: false
-  image: 'ecr-repo-url:${{ VERSION_TAG }}'
+  image: 'ecr-repo-url:$VERSION_TAG'
   externalPort: '80'
   internalPort: '8000'
 

@@ -15,7 +15,6 @@ jobs:
 
       - name: Check variable
         run: |
-          echo ">>> $VERSION_TAG"
-          ls -l .
+          cat sample.config.yml
         env:
           VERSION_TAG: ${{ github.event.client_payload.version_tag }}
