@@ -1,0 +1,38 @@
+# These are values that should be overridden for each service
+namespace: 'service'
+
+# Kubernetes naming scheme: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/
+# 1. contain no more than 253 characters
+# 2. contain only lowercase alphanumeric characters, '-' or '.'
+# 3. start with an alphanumeric character
+# 4.  end with an alphanumeric character
+
+# NOTE: Use CamelCase in Helm variable names
+# NOTE: Quote all string to avoid errors
+helixService:
+  replicas: 2
+  name: 'service'
+  ingressServiceName: 'dev-ingress-service'
+  ingress:
+    hostnamePrefix: 'service.dev'
+    internal:
+      enabled: true
+    external:
+      enabled: false
+  image: 'ecr-repo-url:${{ VERSION_TAG }}'
+  externalPort: '80'
+  internalPort: '8000'
+
+env:
+  AWS_APP_CLIENT_ID: replace_in_github_secret
+
+metricsEndpointEnabled: true
+health_check:
+  path: /health
+  port: 8000
+requests:
+  cpu: 100m
+  memory: 110Mi
+limits:
+  cpu: 200m
+  memory: 200Mi
