@@ -3,18 +3,16 @@ on:
   repository_dispatch:
     types: [call-deploy]
 
+env:
+  IMAGE_TAG: ${{ github.event.client_payload.version_tag }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.client_payload.ref }}
-
-      - run: echo ${{ github.event.client_payload.sha }}
 
       - name: Check variable
         run: |
-          cat sample.config.yml
-        env:
-          VERSION_TAG: ${{ github.event.client_payload.version_tag }}
+          cat sample.config.yml | grep image
+          echo "IMAGE_TAG=$IMAGE_TAG"
