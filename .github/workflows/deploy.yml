@@ -22,8 +22,8 @@ jobs:
       - name: Set variable
         id: set-var
         run: |
-          [ -z ${MANUAL_VALUE} ] && echo "not defined" || export $IMAGE_TAG=${MANUAL_VALUE}
-          [ -z ${EVENT_VALUE} ] && echo "not defined" || export $IMAGE_TAG=${EVENT_VALUE}
+          [ -z ${MANUAL_VALUE} ] && echo "not defined" || export IMAGE_TAG=${MANUAL_VALUE}
+          [ -z ${EVENT_VALUE} ] && echo "not defined" || export IMAGE_TAG=${EVENT_VALUE}
 
       - name: Check variable
         run: |
