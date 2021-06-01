@@ -10,19 +10,15 @@ on:
         description: "release version (x.x.x)"
 
 jobs:
+  env:
+    IMAGE_TAG: ${{ github.event.client_payload.version_tag }} || ${{ github.event.inputs.version }}
+
   deploy:
     runs-on: ubuntu-latest
-    env:
-      if: ${{ github.event_name  == 'repository_dispatch' }}
-      IMAGE_TAG: ${{ github.event.client_payload.version_tag }}
-      if: ${{ github.event_name == 'workflow_dispatch' }}
-      IMAGE_TAG: ${{ github.event.inputs.version }}
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Check variable
         run: |
-          echo ${IMAGE_TAG}
           printenv
-          cat sample.config.yml
