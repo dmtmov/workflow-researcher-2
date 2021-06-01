@@ -1,20 +1,28 @@
 name: Repository Dispatch
+
 on:
   repository_dispatch:
     types: [DEV Deploy Service]
-
-env:
-  IMAGE_TAG: ${{ github.event.client_payload.version_tag }}
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        description: "release version (x.x.x)"
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      if: ${{ github.event_name  == 'repository_dispatch' }}
+      IMAGE_TAG: ${{ github.event.client_payload.version_tag }}
+      if: ${{ github.event_name == 'workflow_dispatch' }}
+      IMAGE_TAG: ${{ github.event.inputs.version }}
+
     steps:
       - uses: actions/checkout@v2
 
       - name: Check variable
-        env:
-          IMAGE_TAG: ${{ github.event.client_payload.version_tag }}
         run: |
+          echo ${IMAGE_TAG}
           printenv
           cat sample.config.yml
