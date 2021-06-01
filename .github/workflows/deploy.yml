@@ -10,11 +10,10 @@ on:
         description: "release version (x.x.x)"
 
 jobs:
-  env:
-    IMAGE_TAG: ${{ github.event.client_payload.version_tag }} || ${{ github.event.inputs.version }}
-
   deploy:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_TAG: ${{ github.event.client_payload.version_tag }} || ${{ github.event.inputs.version }}
 
     steps:
       - uses: actions/checkout@v2
