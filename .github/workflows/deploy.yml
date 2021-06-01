@@ -12,19 +12,22 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      MANUAL_VALUE: ${{ github.event.inputs.version }}
-      EVENT_VALUE: ${{ github.event.client_payload.version_tag }}
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Set variable
         id: set-var
+        outputs: image_tag
+        with:
+          MANUAL_VALUE: ${{ github.event.inputs.version }}
+          EVENT_VALUE: ${{ github.event.client_payload.version_tag }}
         run: |
-          [ -z ${MANUAL_VALUE} ] && echo "not defined" || export IMAGE_TAG=${MANUAL_VALUE}
-          [ -z ${EVENT_VALUE} ] && echo "not defined" || export IMAGE_TAG=${EVENT_VALUE}
+          [ -z ${MANUAL_VALUE} ] && echo "not defined" || export image_tag=${MANUAL_VALUE}
+          [ -z ${EVENT_VALUE} ] && echo "not defined" || export image_tag=${EVENT_VALUE}
 
       - name: Check variable
+        needs: set-var
         run: |
           printenv
+          echo ${{ steps.set-var.outputs.image_tag }}
